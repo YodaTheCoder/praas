@@ -1,0 +1,10 @@
+ReviewsUserClient:
+  Type: AWS::Cognito::UserPoolClient
+  Properties:
+    ClientName: ReviewsUserClient-${self:provider.stage}
+    GenerateSecret: false
+    UserPoolId: { Ref: ReviewsUserPool }
+    AccessTokenValidity: 5
+    IdTokenValidity: 5
+    ExplicitAuthFlows:
+      - "ADMIN_NO_SRP_AUTH"

@@ -1,0 +1,12 @@
+ReviewsUserPool:
+  Type: AWS::Cognito::UserPool
+  Properties:
+    UserPoolName: ReviewsPool-${self:provider.stage}
+    Schema:
+      - Name: email
+        Required: true
+        Mutable: true
+    Policies:
+      PasswordPolicy:
+        MinimumLength: 6
+    AutoVerifiedAttributes: ["email"]

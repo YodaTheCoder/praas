@@ -1,0 +1,132 @@
+service: praas
+
+frameworkVersion: "3"
+
+plugins:
+  - serverless-bundle
+
+provider:
+  name: aws
+  lambdaHashingVersion: 20201221
+  profile: sls
+  runtime: nodejs14.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-1
+  environment:
+    REVIEWS_TABLE_NAME: ${self:custom.ReviewsTable.name}
+    USERS_TABLE_NAME: ${self:custom.UsersTable.name}
+    USER_POOL_ID: { Ref: ReviewsUserPool }
+    CLIENT_ID: { Ref: ReviewsUserClient }
+  iamRoleStatements:
+    - ${file(iam/ReviewsTableIAM.yml):ReviewsTableIAM}
+    - ${file(iam/ReviewsIdentityProviderIAM.yml):ReviewsIdentityProviderIAM}
+    - ${file(iam/UsersTableIAM.yml):UsersTableIAM}
+
+resources:
+  Resources:
+    ReviewsTable: ${file(resources/ReviewsTable.yml):ReviewsTable}
+    ReviewsUserPool: ${file(resources/ReviewsUserPool.yml):ReviewsUserPool}
+    ReviewsUserClient: ${file(resources/ReviewsUserClient.yml):ReviewsUserClient}
+    UsersTable: ${file(resources/UsersTable.yml):UsersTable}
+
+functions:
+  authCheck:
+    handler: src/handlers/authCheck.handler
+    events:
+      - http:
+          method: GET
+          path: /user/auth
+          authorizer: &auth_block
+            name: PrivateAuthorizer
+            type: COGNITO_USER_POOLS
+            arn: ${self:custom.ReviewsUserPool.arn}
+            claims:
+              - email
+
+  signupUser:
+    handler: src/handlers/signupUser.handler
+    events:
+      - http:
+          method: POST
+          path: /user/signup
+
+  loginUser:
+    handler: src/handlers/loginUser.handler
+    events:
+      - http:
+          method: POST
+          path: /user/login
+
+  createReview:
+    handler: src/handlers/createReview.handler
+    events:
+      - http:
+          method: POST
+          path: /review
+          authorizer: *auth_block
+
+  getReview:
+    handler: src/handlers/getReview.handler
+    events:
+      - http:
+          method: GET
+          path: /review
+
+  updateReview:
+    handler: src/handlers/updateReview.handler
+    events:
+      - http:
+          method: PUT
+          path: /review
+          authorizer: *auth_block
+
+  deleteReview:
+    handler: src/handlers/deleteReview.handler
+    events:
+      - http:
+          method: DELETE
+          path: /review
+          authorizer: *auth_block
+
+  createReviews:
+    handler: src/handlers/createReviews.handler
+    events:
+      - http:
+          method: POST
+          path: /reviews
+          authorizer: *auth_block
+
+  listReviews:
+    handler: src/handlers/listReviews.handler
+    events:
+      - http:
+          method: GET
+          path: /reviews
+
+  listCategories:
+    handler: src/handlers/listCategories.handler
+    events:
+      - http:
+          method: GET
+          path: /categories
+
+  peerReview:
+    handler: src/handlers/peerReview.handler
+    events:
+      - http:
+          method: GET
+          path: /peer-review
+
+custom:
+  ReviewsTable:
+    name: !Ref ReviewsTable
+    arn: !GetAtt ReviewsTable.Arn
+  ReviewsUserPool:
+    id: !Ref ReviewsUserPool
+    arn: !GetAtt ReviewsUserPool.Arn
+  UsersTable:
+    name: !Ref UsersTable
+    arn: !GetAtt UsersTable.Arn
+  bundle:
+    linting: false

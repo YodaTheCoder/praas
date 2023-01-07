@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "3802bad1-866c-4a30-9b17-d111e99b741a",
+		"name": "PRaaS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"example@example.com\",\n    \"password\": \"Password123$\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/user/signup",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();",
+							"",
+							"pm.environment.set(\"token\",body.token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"example@example.com\",\n    \"password\": \"Password123$\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/user/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Auth",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/user/auth",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"response\":\"|peer| manages |pronoun-secondary| schedule well. |pronoun-primary| fully completes all tasks assigned to |pronoun-ternary| for the week.\",\n    \"categories\":[\"attendance\",\"Punctuality\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/review",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/review?id=b954dd2e-15c2-4f59-8d4a-bf742d622b8e",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"review"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "b954dd2e-15c2-4f59-8d4a-bf742d622b8e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"response\": \"When we face difficulty, we are sure that we can rely on |pronoun-ternary| for a helpful and creative solution.\",\n    \"categories\": [\n        \"no-limits\",\n        \"camaraderie\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/review?id=b954dd2e-15c2-4f59-8d4a-bf742d622b8e",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"review"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "b954dd2e-15c2-4f59-8d4a-bf742d622b8e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/review?id=65c72110-0c0c-4d3f-b1a0-58eee89e0bba",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"review"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "65c72110-0c0c-4d3f-b1a0-58eee89e0bba"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n        {\n            \"response\": \"|peer| helps coworkers with their tasks even if they are outside |pronoun-secondary| direct responsibility.\",\n            \"categories\": [\n                \"collaboration\",\n                \"cooperation\"\n            ]\n        },\n        {\n            \"response\": \"|peer| always assists coworkers that are having difficulty with their tasks.\",\n            \"categories\": [\n                \"collaboration\",\n                \"cooperation\"\n            ]\n        }\n    ]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/categories",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Peer Review",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/peer-review?peer=mark&gender=male&categories=camaraderie,communication&count=2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"peer-review"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "mark"
+						},
+						{
+							"key": "gender",
+							"value": "male"
+						},
+						{
+							"key": "categories",
+							"value": "camaraderie,communication"
+						},
+						{
+							"key": "count",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
