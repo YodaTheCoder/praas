@@ -1,6 +1,6 @@
 # Peer Reviews as a Service
 
-Generate peer review responses. Accepts peer name, gender and review categores as input and returns personalised and gender respoectful responses.
+Generate peer review responses. Accepts peer name, gender and review categores as input and returns personalised and gender respectful responses.
 
 Includes CRUD endpoints for managing responses and a batch response creation endpoint for convenience. Uses AWS Cognito for admin user authentication for restricted endpoints.
 
