@@ -55,7 +55,7 @@ endpoints:
 
 Copy the base URL from one of the endpoints. Import the included Postman collection and environment and use the copied URL to configured the `host` environment variable.
 
-Use the `POST` User Signup request to create a new user account. The email/validation code route is disabled to the account will automatically be confirmed and enabled in Cognito.
+Use the `POST` User Signup request to create a new user account. The email/validation code route is disabled so the account will automatically be confirmed and enabled in Cognito.
 
 Use the AWS Console to promote the new user to Admin.
 
